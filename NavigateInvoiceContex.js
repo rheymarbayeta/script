@@ -1,12 +1,9 @@
-function openPageInlineWithContext(entityName, recordId, projectNumber) {
+function openPageInlineWithContext(entityName, recordId) {
     let pageInput = {
         pageType: "custom",
         name: "crbd5_invoice_1d98c", // Replace with your actual custom page name
-        parameters: {
-            entityName: entityName,
-            recordId: recordId,
-            projectNumber: projectNumber
-        }
+        entityName: entityName,
+        recordId: recordId,
     };
 
     let navigationOptions = {
@@ -29,14 +26,14 @@ function executeCommand() {
     try {
         var formContext = Xrm.Page;
         var entityName = formContext.data.entity.getEntityName();
-        var recordId = formContext.data.entity.getId();
+        var recordId = formContext.data.entity.getId().replace(/[{}]/g, "");// Remove curly braces
         var projectNumber = formContext.getAttribute("crbd5_projectnumber").getValue(); // Replace "projectnumber" with your actual attribute name
 
         console.log("Entity Name:", entityName);
         console.log("Record ID:", recordId);
-        console.log("Project Number:", projectNumber);
+        console.log("Project No.:", projectNumber);
 
-        openPageInlineWithContext(entityName, recordId, projectNumber);
+        openPageInlineWithContext(entityName, recordId);
     } catch (error) {
         console.error("Error in executeCommand:", error.message);
     }
